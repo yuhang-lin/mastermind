@@ -10,32 +10,22 @@ public class user_guess{
 	
 	
 	public static void main(String[] args) {
-
-		//part of the game mastermind where computer generates string and user guesses
-		System.out.println("The computer will pick a sequence of 4 colors from the 6 available");
-		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
-		for(int i=0; i<4; i++){
-			comp_array[i] = gen_rand();
-		}
-		System.out.println("Computer generated array: " + Arrays.toString(comp_array));
-
 		user_guess();
-
 	}
 
 	
 	public static void user_guess(){
+		//part of the game mastermind where computer generates string and user guesses
+		System.out.println("The computer will pick a sequence of 4 colors from the 6 available");
+		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
 		//have computer pick random sequence
-		//String[] comp_array = new String[4];
-//		for(int i=0; i<4; i++){
-//			comp_array[i] = gen_rand();
-//		}
-//		System.out.println("Computer generated array: " + Arrays.toString(comp_array));
+		for(int i=0; i<4; i++){
+			comp_array[i] = gen_rand();
+		}
+		System.out.println("Computer generated array: " + Arrays.toString(comp_array));
 		
 		//total number of guesses so far
 		total_guesses++;
-
-
 		
 		//scanner to input user data
 		Scanner user_input = new Scanner(System.in);
