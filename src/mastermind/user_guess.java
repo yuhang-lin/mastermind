@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class user_guess{
 	public static int total_guesses = 0;
 	public static String[] comp_array = new String[4];
+	private static final int MAX_GUESS = 12; // Maximum number of guesses allowable
 	
 	
 	public static void main(String[] args) {
@@ -65,7 +66,7 @@ public class user_guess{
 
 		
 		//if user has done 12 guesses, game is over
-		if(total_guesses > 2){
+		if(total_guesses > MAX_GUESS){
 			System.out.println("You lose!");
 		}
 		
@@ -76,7 +77,7 @@ public class user_guess{
 		}
 		
 		//allows the user to input 12 guesses
-		while(total_guesses < 2){
+		while(total_guesses < MAX_GUESS){
 			user_guess();
 		}
 
