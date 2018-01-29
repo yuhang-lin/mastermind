@@ -4,6 +4,7 @@
 package mastermind;
 
 import java.util.Scanner;
+import mastermind.UserGuess;
 
 /**
  * @author Yuhang Lin
@@ -28,7 +29,7 @@ public class Main {
 				choice = scanner.next().charAt(0);
 				switch (choice) {
 				case '1':
-					userGuess();
+					UserGuess.userGuess();
 					break;
 				case '2':
 					computerGuess();
@@ -37,10 +38,6 @@ public class Main {
 			}
 		}
 		
-	}
-	
-	public static void userGuess() {
-		System.out.println("It's your turn to guess. ");
 	}
 	
 	public static void computerGuess() {
