@@ -4,19 +4,20 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-public class user_guess{
+public class UserGuess{
 	public static int total_guesses = 0;
 	public static String[] comp_array = new String[4];
 	private static final int MAX_GUESS = 12; // Maximum number of guesses allowable
 	
 	
 	public static void main(String[] args) {
-		user_guess();
+		userGuess();
 	}
 
 	
-	public static void user_guess(){
+	public static void userGuess(){
 		//part of the game mastermind where computer generates string and user guesses
+		System.out.println("It's time for you to guess. ");
 		System.out.println("The computer will pick a sequence of 4 colors from the 6 available");
 		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
 		//have computer pick random sequence
@@ -78,7 +79,7 @@ public class user_guess{
 		
 		//allows the user to input 12 guesses
 		while(total_guesses < MAX_GUESS){
-			user_guess();
+			userGuess();
 		}
 
 
