@@ -5,6 +5,7 @@ package mastermind;
 
 import java.util.Scanner;
 import mastermind.UserGuess;
+import mastermind.ComputerGuess;
 
 /**
  * @author Yuhang Lin
@@ -32,16 +33,12 @@ public class Main {
 					UserGuess.userGuess();
 					break;
 				case '2':
-					computerGuess();
+					ComputerGuess.computerGuess();
 					break;
 				}
 			}
 		}
 		
-	}
-	
-	public static void computerGuess() {
-		System.out.println("Computer will guess what's in your mind.");
 	}
 
 }
