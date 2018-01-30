@@ -29,10 +29,6 @@ public class UserGuess extends Guess{
 		try (Scanner scanner = new Scanner(System.in)) {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
-				// total number of guesses so far
-				total_guesses++;
-				// prints out total number of guesses so far
-				System.out.println("Total number of guesses: " + total_guesses);
 				System.out.print("Please enter four digits (");
 				for (int i = 0; i < colors.length; i++) {
 					System.out.print(String.format("%d for %s", i + 1, colors[i]));
@@ -62,6 +58,10 @@ public class UserGuess extends Guess{
 						System.out.println(String.format("Please enter %d more digits (1 to 6 only)", digitLeft));
 					}
 				}
+				// total number of guesses so far
+				total_guesses++;
+				// prints out total number of guesses so far
+				System.out.println("Total number of guesses: " + total_guesses);
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 				// checks if user wins
 				int[] result = compareGuess(comp_array, user_guesses);
