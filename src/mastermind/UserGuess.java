@@ -45,11 +45,16 @@ public class UserGuess {
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
 				int index = 0;
-
+				// prints out total number of guesses so far
+				System.out.println("Total number of guesses: " + total_guesses);
 				while (index < NUM_COLOR_ROUND) {
 					// reads the entire user input into a line
 					String guess = scanner.nextLine();
 					for (char ch : guess.toCharArray()) {
+						if (index == NUM_COLOR_ROUND) {
+							System.out.println("Warning: only the first four digits are taken as your guess.");
+							break;
+						}
 						if (ch > '0' && ch < '7') {
 							user_guesses[index++] = ch - '0';
 						}
@@ -59,9 +64,7 @@ public class UserGuess {
 						System.out.println(String.format("Please enter %d more digits", digitLeft));
 					}
 				}
-				// prints out total number of guesses so far
-				System.out.println("Total number of guesses: " + total_guesses);
-
+				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 				// checks if user wins
 				if (Arrays.equals(user_guesses, comp_array)) {
 					System.out.println("You win!");
