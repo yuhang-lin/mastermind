@@ -21,9 +21,8 @@ public class Main {
 	}
 
 	public static void start() {
-		String welcome = "Welcome to Mastermind!\nWould you like to guess what is in computer's mind? \n"
-				+ "Or would you like the computer to guess what is in your mind?";
-		System.out.println(welcome);
+		System.out.println("Welcome to Mastermind!\nWould you like to guess what is in computer's mind? \n"
+				+ "Or would you like the computer to guess what is in your mind?");
 		char choice = '0';
 		try (Scanner scanner = new Scanner(System.in)) {
 			while (choice != '1' && choice != '2') {
