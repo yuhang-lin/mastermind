@@ -6,11 +6,6 @@ public class Guess {
 	public static int total_guesses = 0;
 	protected static final int NUM_COLOR_ROUND = 4; // Number of colors for each round
 	protected static final int MAX_GUESS = 12; // Maximum number of guesses allowable
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	protected static int[] compareGuess (int[] correct, int[] guess) {
 		int[] result = new int[2];
