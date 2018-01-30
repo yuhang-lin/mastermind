@@ -92,7 +92,9 @@ public class UserGuess {
 					System.out.println("You win!");
 					break;
 				} else {
-					System.out.println(String.format("Correct position and color: %d; Wrong position but correct color: %d", numRightPos, numWrongPos));
+					System.out.println(
+							String.format("Correct position and color: %d; Wrong position but correct color: %d",
+									numRightPos, numWrongPos));
 				}
 			}
 		}
