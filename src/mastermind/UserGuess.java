@@ -5,10 +5,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
-public class UserGuess {
-	public static int total_guesses = 0;
-	private static final int NUM_COLOR_ROUND = 4; // Number of colors for each round
-	private static final int MAX_GUESS = 12; // Maximum number of guesses allowable
+public class UserGuess extends Guess{
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 
 	public static void main(String[] args) {
@@ -67,27 +64,9 @@ public class UserGuess {
 				}
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 				// checks if user wins
-				int numRightPos = 0;
-				int numWrongPos = 0;
-				HashSet<Integer> used = new HashSet<>();
-				for (int i = 0; i < NUM_COLOR_ROUND; i++) {
-					if (comp_array[i] == user_guesses[i]) {
-						numRightPos++;
-						used.add(i);
-					}
-				}
-				for (int i = 0; i < NUM_COLOR_ROUND; i++) {
-					if (comp_array[i] != user_guesses[i]) {
-						for (int j = 0; j < NUM_COLOR_ROUND; j++) {
-							if (used.contains(j)) {
-								continue;
-							} else if (comp_array[i] == user_guesses[j]) {
-								used.add(j);
-								numWrongPos++;
-							}
-						}
-					}
-				}
+				int[] result = compareGuess(comp_array, user_guesses);
+				int numRightPos = result[0];
+				int numWrongPos = result[1];
 				if (numRightPos == NUM_COLOR_ROUND) {
 					System.out.println("You win!");
 					break;
