@@ -1,6 +1,7 @@
 package mastermind;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -33,20 +34,20 @@ public class UserGuess {
 			while (total_guesses < MAX_GUESS) {
 				// total number of guesses so far
 				total_guesses++;
-				System.out.print("Please enter four digits: ");
+				// prints out total number of guesses so far
+				System.out.println("Total number of guesses: " + total_guesses);
+				System.out.print("Please enter four digits (");
 				for (int i = 0; i < colors.length; i++) {
 					System.out.print(String.format("%d for %s", i + 1, colors[i]));
 					if (i != colors.length - 1) {
 						System.out.print(", "); // Separate colors with comma
 					} else {
-						System.out.println(); // Print a new line for the last color option
+						System.out.println("):"); // Print a new line for the last color option
 					}
 				}
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
 				int index = 0;
-				// prints out total number of guesses so far
-				System.out.println("Total number of guesses: " + total_guesses);
 				while (index < NUM_COLOR_ROUND) {
 					// reads the entire user input into a line
 					String guess = scanner.nextLine();
@@ -61,14 +62,37 @@ public class UserGuess {
 					}
 					int digitLeft = NUM_COLOR_ROUND - index;
 					if (digitLeft > 0) {
-						System.out.println(String.format("Please enter %d more digits", digitLeft));
+						System.out.println(String.format("Please enter %d more digits (1 to 6 only)", digitLeft));
 					}
 				}
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 				// checks if user wins
-				if (Arrays.equals(user_guesses, comp_array)) {
+				int numRightPos = 0;
+				int numWrongPos = 0;
+				HashSet<Integer> used = new HashSet<>();
+				for (int i = 0; i < NUM_COLOR_ROUND; i++) {
+					if (comp_array[i] == user_guesses[i]) {
+						numRightPos++;
+						used.add(i);
+					}
+				}
+				for (int i = 0; i < NUM_COLOR_ROUND; i++) {
+					if (comp_array[i] != user_guesses[i]) {
+						for (int j = 0; j < NUM_COLOR_ROUND; j++) {
+							if (used.contains(j)) {
+								continue;
+							} else if (comp_array[i] == user_guesses[j]) {
+								used.add(j);
+								numWrongPos++;
+							}
+						}
+					}
+				}
+				if (numRightPos == NUM_COLOR_ROUND) {
 					System.out.println("You win!");
 					break;
+				} else {
+					System.out.println(String.format("Correct position and color: %d; Wrong position but correct color: %d", numRightPos, numWrongPos));
 				}
 			}
 		}
