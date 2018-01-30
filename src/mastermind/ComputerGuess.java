@@ -1,10 +1,9 @@
 package mastermind;
 
-public class ComputerGuess {
+public class ComputerGuess extends Guess{
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		computerGuess();
 	}
 	
 	public static void computerGuess() {
