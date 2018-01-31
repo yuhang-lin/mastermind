@@ -1,8 +1,15 @@
+/**
+ * Base class for UserGuess and ComputerGuess
+ */
 package mastermind;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * @author Yuhang Lin
+ *
+ */
 public class Guess {
 	public static int total_guesses = 0; // Total number of guesses made so far
 	protected static final int NUM_COLOR_ROUND = 4; // Number of colors for each round

@@ -1,5 +1,5 @@
 /**
- * 
+ * Start the game by asking the user which mode he wants to use.
  */
 package mastermind;
 

@@ -1,9 +1,16 @@
+/**
+ * Handle user guesses
+ */
 package mastermind;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * @author Peter Macksey, Yuhang Lin
+ *
+ */
 public class UserGuess extends Guess{
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 
