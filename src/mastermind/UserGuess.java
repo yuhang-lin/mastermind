@@ -30,12 +30,19 @@ public class UserGuess extends Guess{
 		for (int i = 0; i < NUM_COLOR_ROUND; i++) {
 			comp_array[i] = random.nextInt(colors.length) + 1;
 		}
+		
+		
+		//TO TEST, DELETE BEFORE FINISHING PROJET
 		System.out.println("Computer generated array: " + Arrays.toString(comp_array));
+		
+		
 		// scanner to input user data
 		try (Scanner scanner = new Scanner(System.in)) {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
 				System.out.print("Please enter four digits (");
+				
+				//prints out all color options
 				for (int i = 0; i < colors.length; i++) {
 					System.out.print(String.format("%d for %s", i + 1, colors[i]));
 					if (i != colors.length - 1) {
@@ -44,6 +51,7 @@ public class UserGuess extends Guess{
 						System.out.println("):"); // Print a new line for the last color option
 					}
 				}
+				
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
 				int index = 0;
@@ -52,6 +60,7 @@ public class UserGuess extends Guess{
 					String guess = scanner.nextLine();
 					for (char ch : guess.toCharArray()) {
 						if (index == NUM_COLOR_ROUND) {
+							//if more than 4 digits are used, only the first 4 are entered into array
 							System.out.println("Warning: only the first four digits are taken as your guess.");
 							break;
 						}
@@ -61,14 +70,18 @@ public class UserGuess extends Guess{
 					}
 					int digitLeft = NUM_COLOR_ROUND - index;
 					if (digitLeft > 0) {
+						//if <4 digits are entered, then the program asks the user to enter the remaining to make 4
 						System.out.println(String.format("Please enter %d more digits (1 to 6 only)", digitLeft));
 					}
 				}
+				
 				// total number of guesses so far
 				total_guesses++;
+				
 				// prints out total number of guesses so far
 				System.out.println("Total number of guesses: " + total_guesses);
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
+				
 				// checks if user wins
 				int[] result = compareGuess(comp_array, user_guesses);
 				int numRightPos = result[0];
