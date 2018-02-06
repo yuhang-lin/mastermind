@@ -26,6 +26,7 @@ public class UserGuess extends Guess{
 		System.out.println("The computer will pick a sequence of 4 numbers from the 6 available");
 		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
 		String[] colors = { "blue", "white", "green", "yellow", "orange", "red" };
+		System.out.println("If you want to give up, type 'quit' or 'exit'");
 
 		// have computer pick random sequence
 		Random random = new Random();
@@ -68,6 +69,11 @@ public class UserGuess extends Guess{
 						hint();
 					}
 					
+					//checks if user wants to quit
+					if(Objects.equals("quit", guess.toLowerCase()) || Objects.equals("exit", guess.toLowerCase())){
+						System.out.println("You quit, better luck next time! ");
+						System.exit(0);
+					}
 					
 					for (char ch : guess.toCharArray()) {
 						if (index == NUM_COLOR_ROUND) {
