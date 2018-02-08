@@ -24,9 +24,22 @@ public class UserGuess extends Guess {
 		// part of the game mastermind where computer generates string and user guesses
 		System.out.println("It's time for you to guess. ");
 		System.out.println("The computer will pick a sequence of 4 numbers from the 6 available");
-		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
 		String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
+		System.out.print("The options are 1-6: (");
+
+		// prints out all color options
+		for (int i = 0; i < colors.length; i++) {
+			System.out.print(String.format("%d for %s", i + 1, colors[i]));
+			if (i != colors.length - 1) {
+				System.out.print(", "); // Separate colors with comma
+			} else {
+				System.out.println("):"); // Print a new line for the last color option
+			}
+		}
+		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
+
 		System.out.println("If you want to give up, type 'quit' or 'exit'");
+		System.out.println("If you need a hint, enter 'hint'");
 
 		// have computer pick random sequence
 		Random random = new Random();
@@ -41,19 +54,9 @@ public class UserGuess extends Guess {
 		try (Scanner scanner = new Scanner(System.in)) {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
-				System.out.print("The options are 1-6: (");
 
-				// prints out all color options
-				for (int i = 0; i < colors.length; i++) {
-					System.out.print(String.format("%d for %s", i + 1, colors[i]));
-					if (i != colors.length - 1) {
-						System.out.print(", "); // Separate colors with comma
-					} else {
-						System.out.println("):"); // Print a new line for the last color option
-					}
-				}
 				
-				System.out.println("If you need a hint, enter 'hint'");
+
 				System.out.println("Enter 4 numbers: ");
 				
 
