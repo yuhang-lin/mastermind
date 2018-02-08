@@ -25,7 +25,7 @@ public class UserGuess extends Guess {
 		System.out.println("It's time for you to guess. ");
 		System.out.println("The computer will pick a sequence of 4 numbers from the 6 available");
 		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
-		String[] colors = { "blue", "white", "green", "yellow", "orange", "red" };
+		String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
 		System.out.println("If you want to give up, type 'quit' or 'exit'");
 
 		// have computer pick random sequence
@@ -107,7 +107,7 @@ public class UserGuess extends Guess {
 					break;
 				} else {
 					System.out.println(
-							String.format("Correct position and color: %d; Wrong position but correct color: %d",
+							String.format("Correct position and color (BLACK): %d; Wrong position but correct color (WHITE): %d",
 									numRightPos, numWrongPos));
 				}
 			}
