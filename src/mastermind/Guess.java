@@ -3,7 +3,6 @@
  */
 package mastermind;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -14,13 +13,6 @@ public class Guess {
 	public static int total_guesses = 0; // Total number of guesses made so far
 	protected static final int NUM_COLOR_ROUND = 4; // Number of colors for each round
 	protected static final int MAX_GUESS = 12; // Maximum number of guesses allowable
-	
-	public static void main(String[] args) {
-		int[] correct = {4, 5, 1, 5};
-		int[] guess = {1, 1, 2, 2};
-		int[] result = compareGuess(correct, guess);
-		System.out.println(Arrays.toString(result));
-	}
 	
 	/**
 	 * Compare the guessed colors with the correct colors.
