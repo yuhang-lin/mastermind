@@ -52,8 +52,10 @@ public class UserGuess extends Guess {
 						System.out.println("):"); // Print a new line for the last color option
 					}
 				}
-
+				
+				System.out.println("If you need a hint, enter 'hint'");
 				System.out.println("Enter 4 numbers: ");
+				
 
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
