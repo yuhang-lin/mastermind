@@ -29,7 +29,7 @@ public class Guess {
 	 * @return a two element integer array. The first element is the number of correct colors and in the right position
 	 * 		the other is the number of correct colors in the wrong position 
 	 */
-	protected static int[] compareGuess (int[] correct, int[] guess) {
+	public static int[] compareGuess (int[] correct, int[] guess) {
 		int[] result = new int[2];
 		HashSet<Integer> used = new HashSet<>();
 		for (int i = 0; i < NUM_COLOR_ROUND; i++) {
