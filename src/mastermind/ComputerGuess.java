@@ -4,9 +4,11 @@
 package mastermind;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Scanner;
 
 /**
- * main author Alec Meeker
+ * main author Alec Meeker, Yuhang Lin
  */
 
 public class ComputerGuess extends Guess {
@@ -18,6 +20,43 @@ public class ComputerGuess extends Guess {
 
 	public static void main(String[] args) {
 		computerGuess();
+	}
+
+	public static void computerGuess() {
+		System.out.println("Computer will guess what's in your mind.");
+		System.out.println("Please enter 4 digits with each of them from 1 to 6:");
+		try (Scanner scanner = new Scanner(System.in)) {
+			int index = 0;
+			while (index < NUM_COLOR_ROUND) {
+				// reads the entire user input into a line
+				String guess = scanner.nextLine();
+
+				// checks if user wants to quit
+				if (Objects.equals("quit", guess.toLowerCase()) || Objects.equals("exit", guess.toLowerCase())) {
+					System.out.println("Thank you for playing Mastermind! ");
+					System.exit(0);
+				}
+
+				for (char ch : guess.toCharArray()) {
+					if (index == NUM_COLOR_ROUND) {
+						// if more than 4 digits are used, only the first 4 are entered into array
+						System.out.println("Warning: only the first four digits are taken as your guess.");
+						break;
+					}
+					if (ch > '0' && ch < '7') {
+						ans[index++] = ch - '0';
+					}
+				}
+				int digitLeft = NUM_COLOR_ROUND - index;
+				if (digitLeft > 0) {
+					// if <4 digits are entered, then the program asks the user to enter the
+					// remaining to make 4
+					System.out.println(String.format("Please enter %d more digits (1 to 6 only)", digitLeft));
+				}
+			}
+		}
+		System.out.println("You have entered: " + Arrays.toString(ans));
+		generatePotAns();
 	}
 
 	/**
@@ -32,7 +71,7 @@ public class ComputerGuess extends Guess {
 		int inputInt;
 		// loops once for each potential answer
 		for (int i = 0; i < MAXDECIMALVALUE; i++) {
-			// generates the base 6 equivalent of the answer starting with i=0 abd inputInt
+			// generates the base 6 equivalent of the answer starting with i=0 and inputInt
 			// = 1111
 			inputInt = Integer.parseInt(Integer.toString(i, 6)) + 1111;
 			// runs four times per entry to
@@ -56,14 +95,14 @@ public class ComputerGuess extends Guess {
 	 */
 	private static void condense(int[] inputGuess, int[] comparedResult) {
 		for (int entryCheck = 0; entryCheck < MAXDECIMALVALUE; entryCheck++) {
-			if (solutionState[entryCheck] != 0 && (compareGuess(inputGuess, potAns[entryCheck]) != comparedResult)) {
+			if (solutionState[entryCheck] != 0 && !Arrays.equals(compareGuess(inputGuess, potAns[entryCheck]), comparedResult)) {
 				solutionState[entryCheck] = 0;
 			}
 		}
 	}
 
 	/**
-	 * generates the next guess based on what has been eliminated aready
+	 * generates the next guess based on what has been eliminated already
 	 * 
 	 * @return a 4 digit guess
 	 */
@@ -93,15 +132,14 @@ public class ComputerGuess extends Guess {
 	}
 
 	/**
-	 * generates the minimum number of guesses eliminated for each potential guess
-	 * input
+	 * generates the minimum number of guesses eliminated for each potential guess input
 	 * 
 	 * @param potGuess
 	 *            the potential guess that will be tested
 	 * @return the minimum amount of guesses removed
 	 */
 	private static int nextCondenseCounter(int[] potGuess) {
-		// all potential responsed to compare guess
+		// all potential responses to compare guess
 		int[][] responses = { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 }, { 0, 4 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 },
 				{ 2, 0 }, { 2, 1 }, { 2, 2 }, { 3, 0 }, { 4, 0 } };
 		// initialize the counters
@@ -129,4 +167,14 @@ public class ComputerGuess extends Guess {
 		return returnCounterMin;
 	}
 
+	public static int getNumber(int[] nums) {
+		if (nums == null || nums.length == 0) {
+			return 0;
+		}
+		int result = 0;
+		for (int i = 0; i < nums.length; i++) {
+			result = result * 10 + nums[i];
+		}
+		return result;
+	}
 }
