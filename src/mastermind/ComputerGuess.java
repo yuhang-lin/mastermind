@@ -4,6 +4,7 @@
 package mastermind;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ public class ComputerGuess extends Guess {
 	public static int[][] potAns = new int[MAXDECIMALVALUE][4];
 	public static int[] solutionState = new int[MAXDECIMALVALUE];
 	private static int[] ans = { 0, 0, 0, 0 };
+	private static HashSet<Integer> usedGuess = new HashSet<>();
 
 	public static void main(String[] args) {
 		computerGuess();
@@ -58,6 +60,7 @@ public class ComputerGuess extends Guess {
 		System.out.println("You have entered: " + Arrays.toString(ans));
 		generatePotAns();
 		int[] guess = {1, 1, 2, 2}; // Initial guess
+		usedGuess.add(11);
 		while (total_guesses < MAX_GUESS) {
 			total_guesses++;
 			System.out.println(String.format("Computer made %d guess of %s", total_guesses, Arrays.toString(guess)));
@@ -131,12 +134,16 @@ public class ComputerGuess extends Guess {
 	private static int[] nextGuess() {
 		// set base guess
 		int[] next = new int[4];
+		int nextIndex = 0;
 		// initialize counters for the minimum items removed
 		int potMin = 0;
 		int minNumElim = 0;
 		// loop through each potential guess to see which eliminates the most when
 		// eliminating the least amount
 		for (int count = 0; count < MAXDECIMALVALUE; count++) {
+			if (usedGuess.contains(count)) {
+				continue;
+			}
 			// find the minimum eliminated with this set
 			potMin = nextCondenseCounter(potAns[count]);
 			// if the number eliminated is equal to the minimum number eliminated, keep the
@@ -148,9 +155,11 @@ public class ComputerGuess extends Guess {
 			else if (potMin > minNumElim) {
 				minNumElim = potMin;
 				next = potAns[count];
+				nextIndex = count;
 			}
 		}
 		// return the next guess
+		usedGuess.add(nextIndex);
 		return next;
 	}
 
