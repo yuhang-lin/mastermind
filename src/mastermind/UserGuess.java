@@ -55,10 +55,7 @@ public class UserGuess extends Guess {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
 
-				
-
 				System.out.println("Enter 4 numbers: ");
-				
 
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
@@ -111,9 +108,9 @@ public class UserGuess extends Guess {
 					System.out.println("You win!");
 					break;
 				} else {
-					System.out.println(
-							String.format("Correct position and color (BLACK): %d; Wrong position but correct color (WHITE): %d",
-									numRightPos, numWrongPos));
+					System.out.println(String.format(
+							"Correct position and color (BLACK): %d; Wrong position but correct color (WHITE): %d",
+							numRightPos, numWrongPos));
 				}
 			}
 		}
