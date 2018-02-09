@@ -126,6 +126,16 @@ class GuessTest {
 	}
 	
 	@Test
+	@DisplayName("2 Black 1 White")
+	void twoBlackOneWhite() {
+		int[] correctResult = {2, 1};
+		int[] correct = {3, 5, 2, 1};
+		int[] guess = {3, 1, 2, 4};
+		int[] result = Guess.compareGuess(correct, guess);
+		assertArrayEquals(correctResult, result, "2 colors are matched and 1 color is in the wrong positions");
+	}
+	
+	@Test
 	@DisplayName("2 Black 2 White")
 	void twoBlackTwoWhite() {
 		int[] correctResult = {2, 2};
