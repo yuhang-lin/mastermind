@@ -4,6 +4,7 @@
 package mastermind;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
@@ -17,8 +18,9 @@ public class ComputerGuess extends Guess {
 	private static final int MAXDECIMALVALUE = 1296; // 6 * 6 * 6 * 6
 	public static int[][] potAns = new int[MAXDECIMALVALUE][4];
 	public static int[] solutionState = new int[MAXDECIMALVALUE];
-	private static int[] ans = { 0, 0, 0, 0 };
+	private static int[] ans = new int[4];
 	private static HashSet<Integer> usedGuess = new HashSet<>();
+	private static HashSet<Integer> candidate = new HashSet<>();
 
 	public static void main(String[] args) {
 		computerGuess();
@@ -76,7 +78,13 @@ public class ComputerGuess extends Guess {
 						numRightPos, numWrongPos));
 			}
 			condense(guess, result);
-			guess = nextGuess();
+			if (candidate.size() == 1) {
+				for (Integer index : candidate) {
+					guess = potAns[index];
+				}
+			} else {
+				guess = nextGuess();
+			}
 		}
 		if (total_guesses == MAX_GUESS) {
 			// if user has done 12 guesses, game is over
@@ -96,6 +104,8 @@ public class ComputerGuess extends Guess {
 		int inputInt;
 		// loops once for each potential answer
 		for (int i = 0; i < MAXDECIMALVALUE; i++) {
+			// Add to candidate set
+			candidate.add(i);
 			// generates the base 6 equivalent of the answer starting with i=0 and inputInt
 			// = 1111
 			inputInt = Integer.parseInt(Integer.toString(i, 6)) + 1111;
@@ -120,8 +130,13 @@ public class ComputerGuess extends Guess {
 	 */
 	private static void condense(int[] inputGuess, int[] comparedResult) {
 		for (int entryCheck = 0; entryCheck < MAXDECIMALVALUE; entryCheck++) {
-			if (solutionState[entryCheck] != 0 && !Arrays.equals(compareGuess(inputGuess, potAns[entryCheck]), comparedResult)) {
+			if (solutionState[entryCheck] == 0) {
+				continue;
+			}
+			int[] result = compareGuess(potAns[entryCheck], inputGuess);
+			if (!Arrays.equals(result, comparedResult)) {
 				solutionState[entryCheck] = 0;
+				candidate.remove(entryCheck);
 			}
 		}
 	}
@@ -137,7 +152,7 @@ public class ComputerGuess extends Guess {
 		int nextIndex = 0;
 		// initialize counters for the minimum items removed
 		int potMin = 0;
-		int minNumElim = 0;
+		int maxScore = -1;
 		// loop through each potential guess to see which eliminates the most when
 		// eliminating the least amount
 		for (int count = 0; count < MAXDECIMALVALUE; count++) {
@@ -146,14 +161,10 @@ public class ComputerGuess extends Guess {
 			}
 			// find the minimum eliminated with this set
 			potMin = nextCondenseCounter(potAns[count]);
-			// if the number eliminated is equal to the minimum number eliminated, keep the
-			// smaller guess
-			if (potMin == minNumElim) {
-			}
-			// otherwise, if the new potential minimum is greater than the current, replace
+			// If the new potential minimum is greater than the current, replace
 			// it and the next guess
-			else if (potMin > minNumElim) {
-				minNumElim = potMin;
+			if (potMin > maxScore) {
+				maxScore = potMin;
 				next = potAns[count];
 				nextIndex = count;
 			}
@@ -171,33 +182,23 @@ public class ComputerGuess extends Guess {
 	 * @return the minimum amount of guesses removed
 	 */
 	private static int nextCondenseCounter(int[] potGuess) {
-		// all potential responses to compare guess
-		int[][] responses = { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 }, { 0, 4 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 },
-				{ 2, 0 }, { 2, 1 }, { 2, 2 }, { 3, 0 }, { 4, 0 } };
-		// initialize the counters
-		int returnCounter = 0;
-		int returnCounterMin = MAXDECIMALVALUE;
-		// check the number eliminated by each response individually
-		for (int responsecounter = 0; responsecounter < responses.length; responsecounter++) {
-			// set the individual counter to 0
-			returnCounter = 0;
-			// loop through all potential solutions
-			for (int potRespCheck = 0; potRespCheck < MAXDECIMALVALUE; potRespCheck++) {
-				// if the solution is still possible and the compared guess does not equal the
-				// response increment counter
-				if (solutionState[potRespCheck] == 1
-						&& (compareGuess(potGuess, potAns[potRespCheck]) != responses[responsecounter])) {
-					returnCounter++;
-				}
-			}
-			// if the new counter is smaller than the one that will be returned, replace the
-			// one that will be returned
-			if (returnCounter < returnCounterMin) {
-				returnCounterMin = returnCounter;
+		HashMap<Integer, Integer> map = new HashMap<>();
+		int numElements = 0;
+		for (int potRespCheck = 0; potRespCheck < MAXDECIMALVALUE; potRespCheck++) {
+			if (solutionState[potRespCheck] == 1) {
+				//int[] result = compareGuess(potGuess, potAns[potRespCheck]);
+				int[] result = compareGuess(potAns[potRespCheck], potGuess);
+				int resultIndex = result[0] * 10 + result[1];
+				map.put(resultIndex, 1 + map.getOrDefault(resultIndex, 0));
+				numElements++;
 			}
 		}
+		int highestHits = 0;
+		for (Integer key : map.keySet()) {
+			highestHits = Math.max(map.get(key), highestHits);
+		}
 		// return the minimum eliminated
-		return returnCounterMin;
+		return numElements - highestHits;
 	}
 	
 }
