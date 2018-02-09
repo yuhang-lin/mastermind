@@ -17,7 +17,6 @@ public class ComputerGuess extends Guess {
 
 	private static final int MAXDECIMALVALUE = 1296; // 6 * 6 * 6 * 6
 	public static int[][] potAns = new int[MAXDECIMALVALUE][4];
-	public static int[] solutionState = new int[MAXDECIMALVALUE];
 	private static int[] ans = new int[4];
 	private static HashSet<Integer> usedGuess = new HashSet<>();
 	private static HashSet<Integer> candidate = new HashSet<>();
@@ -113,8 +112,6 @@ public class ComputerGuess extends Guess {
 			for (int j = 0; j < 4; j++) {
 				potAns[i][j] = Integer.valueOf(Character.digit(Integer.toString(inputInt).charAt(j), 10));
 			}
-			// states that this entry is a valid potential solution
-			solutionState[i] = 1;
 		}
 	}
 
@@ -130,13 +127,11 @@ public class ComputerGuess extends Guess {
 	 */
 	private static void condense(int[] inputGuess, int[] comparedResult) {
 		for (int entryCheck = 0; entryCheck < MAXDECIMALVALUE; entryCheck++) {
-			if (solutionState[entryCheck] == 0) {
-				continue;
-			}
-			int[] result = compareGuess(potAns[entryCheck], inputGuess);
-			if (!Arrays.equals(result, comparedResult)) {
-				solutionState[entryCheck] = 0;
-				candidate.remove(entryCheck);
+			if (candidate.contains(entryCheck)) {
+				int[] result = compareGuess(potAns[entryCheck], inputGuess);
+				if (!Arrays.equals(result, comparedResult)) {
+					candidate.remove(entryCheck);
+				}
 			}
 		}
 	}
@@ -185,8 +180,7 @@ public class ComputerGuess extends Guess {
 		HashMap<Integer, Integer> map = new HashMap<>();
 		int numElements = 0;
 		for (int potRespCheck = 0; potRespCheck < MAXDECIMALVALUE; potRespCheck++) {
-			if (solutionState[potRespCheck] == 1) {
-				//int[] result = compareGuess(potGuess, potAns[potRespCheck]);
+			if (candidate.contains(potRespCheck)) {
 				int[] result = compareGuess(potAns[potRespCheck], potGuess);
 				int resultIndex = result[0] * 10 + result[1];
 				map.put(resultIndex, 1 + map.getOrDefault(resultIndex, 0));
