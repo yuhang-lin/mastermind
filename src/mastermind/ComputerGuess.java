@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class ComputerGuess extends Guess {
 
-	private static final int MAXDECIMALVALUE = 1296;
+	private static final int MAXDECIMALVALUE = 1296; // 6 * 6 * 6 * 6
 	public static int[][] potAns = new int[MAXDECIMALVALUE][4];
 	public static int[] solutionState = new int[MAXDECIMALVALUE];
 	private static int[] ans = { 0, 0, 0, 0 };
@@ -57,6 +57,28 @@ public class ComputerGuess extends Guess {
 		}
 		System.out.println("You have entered: " + Arrays.toString(ans));
 		generatePotAns();
+		int[] guess = {1, 1, 2, 2}; // Initial guess
+		while (total_guesses < MAX_GUESS) {
+			total_guesses++;
+			System.out.println(String.format("Computer made %d guess of %s", total_guesses, Arrays.toString(guess)));
+			int[] result = compareGuess(ans, guess);
+			int numRightPos = result[0];
+			int numWrongPos = result[1];
+			if (numRightPos == NUM_COLOR_ROUND) {
+				System.out.println("Computer wins!");
+				break;
+			} else {
+				System.out.println(String.format(
+						"Correct position and color (BLACK): %d; Wrong position but correct color (WHITE): %d",
+						numRightPos, numWrongPos));
+			}
+			condense(guess, result);
+			guess = nextGuess();
+		}
+		if (total_guesses == MAX_GUESS) {
+			// if user has done 12 guesses, game is over
+			System.out.println("You win! Computer failed to guess the correct sequence.");
+		}
 	}
 
 	/**
@@ -108,9 +130,10 @@ public class ComputerGuess extends Guess {
 	 */
 	private static int[] nextGuess() {
 		// set base guess
-		int[] next = { 1, 1, 2, 2 };
+		int[] next = new int[4];
 		// initialize counters for the minimum items removed
-		int potMin, minNumElim = 0;
+		int potMin = 0;
+		int minNumElim = 0;
 		// loop through each potential guess to see which eliminates the most when
 		// eliminating the least amount
 		for (int count = 0; count < MAXDECIMALVALUE; count++) {
@@ -143,9 +166,10 @@ public class ComputerGuess extends Guess {
 		int[][] responses = { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 }, { 0, 4 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 },
 				{ 2, 0 }, { 2, 1 }, { 2, 2 }, { 3, 0 }, { 4, 0 } };
 		// initialize the counters
-		int returnCounter, returnCounterMin = MAXDECIMALVALUE;
+		int returnCounter = 0;
+		int returnCounterMin = MAXDECIMALVALUE;
 		// check the number eliminated by each response individually
-		for (int responsecounter = 0; responsecounter < 14; responsecounter++) {
+		for (int responsecounter = 0; responsecounter < responses.length; responsecounter++) {
 			// set the individual counter to 0
 			returnCounter = 0;
 			// loop through all potential solutions
@@ -166,15 +190,5 @@ public class ComputerGuess extends Guess {
 		// return the minimum eliminated
 		return returnCounterMin;
 	}
-
-	public static int getNumber(int[] nums) {
-		if (nums == null || nums.length == 0) {
-			return 0;
-		}
-		int result = 0;
-		for (int i = 0; i < nums.length; i++) {
-			result = result * 10 + nums[i];
-		}
-		return result;
-	}
+	
 }
