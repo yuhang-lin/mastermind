@@ -3,6 +3,11 @@
  */
 package mastermind;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
@@ -21,6 +26,47 @@ public class UserGuess extends Guess {
 	}
 
 	public static void userGuess() {
+		//opens file to read how many times the user_guess has been played and number of total guesses
+		int num_total_plays = 1;
+		int num_total_guesses = 1;
+		try{
+			//read files
+			FileReader num_played_input = new FileReader("user_guess_#played.txt"); 
+			FileReader total_guesses_input = new FileReader("user_guess_total_guesses.txt");
+			
+			//use buffered to read
+			BufferedReader buffreader_num_plays = new BufferedReader(num_played_input);
+			BufferedReader buffreader_total_guesses = new BufferedReader(total_guesses_input);
+			
+			//read first line
+			String string_total_plays = buffreader_num_plays.readLine();
+			String string_total_guesses = buffreader_total_guesses.readLine();
+		
+			
+//			System.out.println("Total number of plays: " + string_total_plays);
+//			System.out.println("Total number of guesses: " + string_total_guesses);
+
+			num_total_plays = Integer.parseInt(string_total_plays);
+			num_total_guesses = Integer.parseInt(string_total_guesses);
+		}
+		catch(FileNotFoundException exception){
+			System.out.println("Files not found");
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("IO Error");
+		}
+		
+		
+		//test to find file location
+		File f = new File("file.txt");
+		try {
+			System.out.println(f.getCanonicalPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// part of the game mastermind where computer generates string and user guesses
 		System.out.println("It's time for you to guess. ");
 		System.out.println("The computer will pick a sequence of 4 numbers from the 6 available");
@@ -40,6 +86,7 @@ public class UserGuess extends Guess {
 
 		System.out.println("If you want to give up, type 'quit' or 'exit'");
 		System.out.println("If you need a hint, enter 'hint'");
+		System.out.println("If you want some statistics, enter 'stats'");
 
 		// have computer pick random sequence
 		Random random = new Random();
@@ -74,6 +121,14 @@ public class UserGuess extends Guess {
 						System.out.println("You quit, better luck next time! ");
 						System.exit(0);
 					}
+					
+					// checks if user wants stats
+					if (Objects.equals("stats", guess.toLowerCase())) {
+						System.out.println("The number of games played: " + num_total_plays);
+						System.out.println("The total number of guesses: " + num_total_guesses);
+						System.out.println("The average number of guesses required to win: " + num_total_guesses/num_total_plays);
+					}
+
 
 					for (char ch : guess.toCharArray()) {
 						if (index == NUM_COLOR_ROUND) {
