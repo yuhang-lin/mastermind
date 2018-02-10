@@ -49,11 +49,19 @@ public class Guess {
 				}
 			}
 		}
-		// Because each black is added once, we need to subtract them to get the correct value
+		// Because each black is added as a white previously, we need to subtract them
+		// to get the correct value of white
 		result[1] -= result[0];
 		return result;
 	}
 
+	/**
+	 * Get the ordinal suffix of a positive integer number
+	 * 
+	 * @param num
+	 *            a positive integer number to get its ordinal suffix
+	 * @return a String of the number's ordinal suffix
+	 */
 	public static String getNumberSuffix(int num) {
 		if (num >= 11 && num <= 13) {
 			return "th";
