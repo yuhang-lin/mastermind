@@ -10,9 +10,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * main author Alec Meeker, Yuhang Lin
+ * @author Alec Meeker, Yuhang Lin
  */
-
 public class ComputerGuess extends Guess {
 
 	private static final int MAXDECIMALVALUE = 1296; // 6 * 6 * 6 * 6
@@ -25,6 +24,9 @@ public class ComputerGuess extends Guess {
 		computerGuess();
 	}
 
+	/**
+	 * Main method for computer guess
+	 */
 	public static void computerGuess() {
 		System.out.println("Computer will guess what's in your mind.");
 		System.out.println("Please enter 4 digits with each of them from 1 to 6:");
@@ -64,7 +66,7 @@ public class ComputerGuess extends Guess {
 		usedGuess.add(11);
 		while (total_guesses < MAX_GUESS) {
 			total_guesses++;
-			System.out.println(String.format("Computer made %d guess of %s", total_guesses, Arrays.toString(guess)));
+			System.out.println(String.format("Computer made %d%s guess of %s", total_guesses, getNumberSuffix(total_guesses), Arrays.toString(guess)));
 			int[] result = compareGuess(ans, guess);
 			int numRightPos = result[0];
 			int numWrongPos = result[1];
