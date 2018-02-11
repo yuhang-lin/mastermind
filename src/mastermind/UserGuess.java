@@ -4,9 +4,11 @@
 package mastermind;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -20,53 +22,13 @@ import java.util.Scanner;
 public class UserGuess extends Guess {
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 	public static int total_hints = 0;
+	private static String fileName = "user_stats.txt";
 
 	public static void main(String[] args) {
 		userGuess();
 	}
 
 	public static void userGuess() {
-		//opens file to read how many times the user_guess has been played and number of total guesses
-		int num_total_plays = 1;
-		int num_total_guesses = 1;
-		try{
-			//read files
-			FileReader num_played_input = new FileReader("user_guess_#played.txt"); 
-			FileReader total_guesses_input = new FileReader("user_guess_total_guesses.txt");
-			
-			//use buffered to read
-			BufferedReader buffreader_num_plays = new BufferedReader(num_played_input);
-			BufferedReader buffreader_total_guesses = new BufferedReader(total_guesses_input);
-			
-			//read first line
-			String string_total_plays = buffreader_num_plays.readLine();
-			String string_total_guesses = buffreader_total_guesses.readLine();
-		
-			
-//			System.out.println("Total number of plays: " + string_total_plays);
-//			System.out.println("Total number of guesses: " + string_total_guesses);
-
-			num_total_plays = Integer.parseInt(string_total_plays);
-			num_total_guesses = Integer.parseInt(string_total_guesses);
-		}
-		catch(FileNotFoundException exception){
-			System.out.println("Files not found");
-		} 
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("IO Error");
-		}
-		
-		
-		//test to find file location
-		File f = new File("file.txt");
-		try {
-			System.out.println(f.getCanonicalPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		// part of the game mastermind where computer generates string and user guesses
 		System.out.println("It's time for you to guess. ");
 		System.out.println("The computer will pick a sequence of 4 numbers from the 6 available");
@@ -121,14 +83,11 @@ public class UserGuess extends Guess {
 						System.out.println("You quit, better luck next time! ");
 						System.exit(0);
 					}
-					
+
 					// checks if user wants stats
 					if (Objects.equals("stats", guess.toLowerCase())) {
-						System.out.println("The number of games played: " + num_total_plays);
-						System.out.println("The total number of guesses: " + num_total_guesses);
-						System.out.println("The average number of guesses required to win: " + num_total_guesses/num_total_plays);
+						displayStats();
 					}
-
 
 					for (char ch : guess.toCharArray()) {
 						if (index == NUM_COLOR_ROUND) {
@@ -161,6 +120,8 @@ public class UserGuess extends Guess {
 				int numWrongPos = result[1];
 				if (numRightPos == NUM_COLOR_ROUND) {
 					System.out.println("You win!");
+					storeStats(total_guesses);
+					displayStats();
 					break;
 				} else {
 					System.out.println(String.format(
@@ -201,5 +162,60 @@ public class UserGuess extends Guess {
 			System.out.println("Too bad, no more hints! ");
 		}
 		total_hints++;
+	}
+
+	/**
+	 * Display summary statistics from file records.
+	 */
+	private static void displayStats() {
+		int numPlay = 0;
+		int sumGuess = 0;
+		int minGuess = Integer.MAX_VALUE;
+		int maxGuess = Integer.MIN_VALUE;
+		int average = 0;
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(fileName));
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				numPlay++;
+				int numGuess = Integer.parseInt(line);
+				minGuess = Math.min(minGuess, numGuess);
+				maxGuess = Math.max(maxGuess, numGuess);
+				sumGuess += numGuess;
+			}
+			reader.close();
+		} catch (FileNotFoundException exception) {
+			System.out.println("It seems that you didn't play this game before. Why not keep playing this game?");
+			return;
+		} catch (IOException e) {
+			System.out.println("Sorry the software encountered an IO Error. Please try again later.");
+		}
+		System.out.println("Below are the summary statistics: ");
+		System.out.println("Number of games played: " + numPlay);
+		System.out.println("Total number of guesses: " + sumGuess);
+		System.out.println("Minimum number of guesses: " + minGuess);
+		System.out.println("Maximum number of guesses: " + maxGuess);
+		if (sumGuess > 0) {
+			average = sumGuess / numPlay;
+			System.out.println("Average number of guesses required to win: " + average);
+		}
+	}
+
+	/**
+	 * Store the number of guesses into file for record.
+	 * @param numGuess an integer number of guesses
+	 */
+	private static void storeStats(int numGuess) {
+		try {
+			File file = new File(fileName);
+			if (!file.exists()) {
+			     file.createNewFile();
+			  }
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+			writer.write(String.format("%d\n", numGuess));
+			writer.close();
+		} catch (IOException ioe) {
+			System.out.println("Sorry the software encountered an IO Error. Please try again later.");
+		}
 	}
 }
