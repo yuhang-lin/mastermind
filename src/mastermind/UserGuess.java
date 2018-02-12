@@ -182,7 +182,7 @@ public class UserGuess extends Guess {
 			while ((line = reader.readLine()) != null) {
 				numPlay++;
 				int numGuess = Integer.parseInt(line);
-				if (numGuess > 0) {
+				if (numGuess > 0) { // a positive number of guesses indicates the user won the game
 					numWon++;
 					minGuess = Math.min(minGuess, numGuess);
 					maxGuess = Math.max(maxGuess, numGuess);
@@ -199,9 +199,9 @@ public class UserGuess extends Guess {
 		System.out.println("Below are the summary statistics: ");
 		System.out.println("Number of games played: " + numPlay);
 		System.out.println("Number of games won: " + numWon);
-		System.out.println("Total number of guesses: " + sumGuess);
-		System.out.println("Minimum number of guesses: " + minGuess);
-		System.out.println("Maximum number of guesses: " + maxGuess);
+		System.out.println(String.format("Total number of guesses: %d", sumGuess + 12 * (numPlay - numWon)));
+		System.out.println("Minimum number of guesses required to win: " + minGuess);
+		System.out.println("Maximum number of guesses required to win: " + maxGuess);
 		if (numWon > 0) {
 			average = (double) sumGuess / numWon;
 			System.out.println(String.format("Average number of guesses required to win: %.2f", average));
