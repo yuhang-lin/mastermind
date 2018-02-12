@@ -184,9 +184,9 @@ public class UserGuess extends Guess {
 				int numGuess = Integer.parseInt(line);
 				if (numGuess > 0) {
 					numWon++;
-				minGuess = Math.min(minGuess, numGuess);
-				maxGuess = Math.max(maxGuess, numGuess);
-				sumGuess += numGuess;
+					minGuess = Math.min(minGuess, numGuess);
+					maxGuess = Math.max(maxGuess, numGuess);
+					sumGuess += numGuess;
 				}
 			}
 			reader.close();
@@ -203,21 +203,23 @@ public class UserGuess extends Guess {
 		System.out.println("Minimum number of guesses: " + minGuess);
 		System.out.println("Maximum number of guesses: " + maxGuess);
 		if (numWon > 0) {
-			average = sumGuess *1.0 / numWon;
+			average = (double) sumGuess / numWon;
 			System.out.println(String.format("Average number of guesses required to win: %.2f", average));
 		}
 	}
 
 	/**
 	 * Store the number of guesses into file for record.
-	 * @param numGuess an integer number of guesses
+	 * 
+	 * @param numGuess
+	 *            an integer number of guesses
 	 */
 	private static void storeStats(int numGuess) {
 		try {
 			File file = new File(fileName);
 			if (!file.exists()) {
-			     file.createNewFile();
-			  }
+				file.createNewFile();
+			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
 			writer.write(String.format("%d\n", numGuess));
 			writer.close();
