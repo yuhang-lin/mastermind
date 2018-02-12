@@ -134,6 +134,8 @@ public class UserGuess extends Guess {
 			// if user has done 12 guesses, game is over
 			System.out.println("You lose!");
 			System.out.println("Here is what computer generated: " + Arrays.toString(comp_array));
+			storeStats(0);
+			displayStats();
 		}
 	}
 
@@ -169,19 +171,23 @@ public class UserGuess extends Guess {
 	 */
 	private static void displayStats() {
 		int numPlay = 0;
+		int numWon = 0;
 		int sumGuess = 0;
 		int minGuess = Integer.MAX_VALUE;
 		int maxGuess = Integer.MIN_VALUE;
-		int average = 0;
+		double average = 0;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				numPlay++;
 				int numGuess = Integer.parseInt(line);
+				if (numGuess > 0) {
+					numWon++;
 				minGuess = Math.min(minGuess, numGuess);
 				maxGuess = Math.max(maxGuess, numGuess);
 				sumGuess += numGuess;
+				}
 			}
 			reader.close();
 		} catch (FileNotFoundException exception) {
@@ -192,12 +198,13 @@ public class UserGuess extends Guess {
 		}
 		System.out.println("Below are the summary statistics: ");
 		System.out.println("Number of games played: " + numPlay);
+		System.out.println("Number of games won: " + numWon);
 		System.out.println("Total number of guesses: " + sumGuess);
 		System.out.println("Minimum number of guesses: " + minGuess);
 		System.out.println("Maximum number of guesses: " + maxGuess);
-		if (sumGuess > 0) {
-			average = sumGuess / numPlay;
-			System.out.println("Average number of guesses required to win: " + average);
+		if (numWon > 0) {
+			average = sumGuess *1.0 / numWon;
+			System.out.println(String.format("Average number of guesses required to win: %.2f", average));
 		}
 	}
 
