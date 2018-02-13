@@ -16,11 +16,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
+ * Have the user guess computer generated array
+ * 
  * @author Peter Macksey, Yuhang Lin
- *
  */
 public class UserGuess extends Guess {
-	//class to have the user guess computer generated array
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 	public static int total_hints = 0;
 	private static String fileName = "user_stats.txt";
@@ -29,11 +29,13 @@ public class UserGuess extends Guess {
 		userGuess();
 	}
 
+	/**
+	 * Part of the game mastermind where computer generates string and user guesses
+	 */
 	public static void userGuess() {
-		// part of the game mastermind where computer generates string and user guesses
 		System.out.println("It's time for you to guess. ");
 		String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
-		System.out.print("The computer will pick a sequence of 4 numbers, each from 1-6: (");
+		System.out.print("The computer will pick a sequence of 4 numbers, each from 1 to 6: (");
 
 		// prints out all color options
 		for (int i = 0; i < colors.length; i++) {
@@ -59,8 +61,8 @@ public class UserGuess extends Guess {
 		try (Scanner scanner = new Scanner(System.in)) {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
-				//if you haven't entered 12 guesses allow more
-				System.out.println("Enter 4 numbers: ");
+				// if you haven't entered 12 guesses allow more
+				System.out.println("Enter 4 numbers, each from 1 to 6: ");
 
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
@@ -108,7 +110,7 @@ public class UserGuess extends Guess {
 
 				// prints out total number of guesses so far
 				System.out.println("Total number of guesses: " + total_guesses);
-				//prints out your guess
+				// prints out your guess
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 
 				// checks if user wins, if not, gives feedback on their guess
@@ -136,10 +138,10 @@ public class UserGuess extends Guess {
 		}
 	}
 
+	/**
+	 * Provide user with at most two hints if they wish.
+	 */
 	public static void hint() {
-		// method to give user hint if they wish
-		// max of 2 hints allowed, can't make it too easy
-
 		// have computer pick random index for hint
 		Random hint_random = new Random();
 		int hint = hint_random.nextInt(comp_array.length);
