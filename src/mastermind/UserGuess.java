@@ -20,6 +20,7 @@ import java.util.Scanner;
  *
  */
 public class UserGuess extends Guess {
+	//class to have the user guess computer generated array
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 	public static int total_hints = 0;
 	private static String fileName = "user_stats.txt";
@@ -31,9 +32,8 @@ public class UserGuess extends Guess {
 	public static void userGuess() {
 		// part of the game mastermind where computer generates string and user guesses
 		System.out.println("It's time for you to guess. ");
-		System.out.println("The computer will pick a sequence of 4 numbers from the 6 available");
 		String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
-		System.out.print("The options are 1-6: (");
+		System.out.print("The computer will pick a sequence of 4 numbers, each from 1-6: (");
 
 		// prints out all color options
 		for (int i = 0; i < colors.length; i++) {
@@ -45,8 +45,7 @@ public class UserGuess extends Guess {
 			}
 		}
 		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
-
-		System.out.println("If you want to give up, type 'quit' or 'exit'");
+		System.out.println("If you want to give up, enter 'quit' or 'exit'");
 		System.out.println("If you need a hint, enter 'hint'");
 		System.out.println("If you want some statistics, enter 'stats'");
 
@@ -56,14 +55,11 @@ public class UserGuess extends Guess {
 			comp_array[i] = random.nextInt(colors.length) + 1;
 		}
 
-		// TO TEST, DELETE BEFORE FINISHING PROJET
-		System.out.println("TEST TEST TEST Computer generated array: " + Arrays.toString(comp_array));
-
 		// scanner to input user data
 		try (Scanner scanner = new Scanner(System.in)) {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
-
+				//if you haven't entered 12 guesses allow more
 				System.out.println("Enter 4 numbers: ");
 
 				// reads the line into an array
@@ -112,9 +108,10 @@ public class UserGuess extends Guess {
 
 				// prints out total number of guesses so far
 				System.out.println("Total number of guesses: " + total_guesses);
+				//prints out your guess
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 
-				// checks if user wins
+				// checks if user wins, if not, gives feedback on their guess
 				int[] result = compareGuess(comp_array, user_guesses);
 				int numRightPos = result[0];
 				int numWrongPos = result[1];
@@ -142,7 +139,6 @@ public class UserGuess extends Guess {
 	public static void hint() {
 		// method to give user hint if they wish
 		// max of 2 hints allowed, can't make it too easy
-		// allows duplicates and things you've already guessed
 
 		// have computer pick random index for hint
 		Random hint_random = new Random();
@@ -191,7 +187,7 @@ public class UserGuess extends Guess {
 			}
 			reader.close();
 		} catch (FileNotFoundException exception) {
-			System.out.println("It seems that you didn't play this game before. Why not keep playing this game?");
+			System.out.println("It seems that you haven't played this game before. Keep playing to gather statistics!");
 			return;
 		} catch (IOException e) {
 			System.out.println("Sorry the software encountered an IO Error. Please try again later.");
