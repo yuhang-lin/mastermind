@@ -10,6 +10,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
+ * Part of the game mastermind where user provides a code and computer guesses
+ * 
  * @author Alec Meeker, Yuhang Lin
  */
 public class ComputerGuess extends Guess {
@@ -62,11 +64,12 @@ public class ComputerGuess extends Guess {
 		}
 		System.out.println("You have entered: " + Arrays.toString(ans));
 		generatePotAns();
-		int[] guess = {1, 1, 2, 2}; // Initial guess
+		int[] guess = { 1, 1, 2, 2 }; // Initial guess
 		usedGuess.add(11);
 		while (total_guesses < MAX_GUESS) {
 			total_guesses++;
-			System.out.println(String.format("Computer made %d%s guess of %s", total_guesses, getNumberSuffix(total_guesses), Arrays.toString(guess)));
+			System.out.println(String.format("Computer made %d%s guess of %s", total_guesses,
+					getNumberSuffix(total_guesses), Arrays.toString(guess)));
 			int[] result = compareGuess(ans, guess);
 			int numRightPos = result[0];
 			int numWrongPos = result[1];
@@ -172,7 +175,8 @@ public class ComputerGuess extends Guess {
 	}
 
 	/**
-	 * generates the minimum number of guesses eliminated for each potential guess input
+	 * generates the minimum number of guesses eliminated for each potential guess
+	 * input
 	 * 
 	 * @param potGuess
 	 *            the potential guess that will be tested
@@ -196,5 +200,5 @@ public class ComputerGuess extends Guess {
 		// return the minimum eliminated
 		return numElements - highestHits;
 	}
-	
+
 }
