@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Have the user guess computer generated array
+ * Part of the game mastermind where computer generates string and user guesses
  * 
  * @author Peter Macksey, Yuhang Lin
  */
@@ -30,7 +30,7 @@ public class UserGuess extends Guess {
 	}
 
 	/**
-	 * Part of the game mastermind where computer generates string and user guesses
+	 * Main method of UserGuess.
 	 */
 	public static void userGuess() {
 		System.out.println("It's time for you to guess. ");
