@@ -35,7 +35,7 @@ public class UserGuess extends Guess {
 	public static void userGuess() {
 		System.out.println("It's time for you to guess. ");
 		String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
-		System.out.print("The computer will pick a sequence of 4 numbers, each from 1 to 6: (");
+		System.out.print("The computer will pick 4 numbers, each from 1 to 6 (");
 
 		// prints out all color options
 		for (int i = 0; i < colors.length; i++) {
@@ -174,17 +174,18 @@ public class UserGuess extends Guess {
 		int minGuess = Integer.MAX_VALUE;
 		int maxGuess = Integer.MIN_VALUE;
 		double average = 0;
+		int lastNumGuess = 0;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				numPlay++;
-				int numGuess = Integer.parseInt(line);
-				if (numGuess > 0) { // a positive number of guesses indicates the user won the game
+				lastNumGuess = Integer.parseInt(line);
+				if (lastNumGuess > 0) { // a positive number of guesses indicates the user won the game
 					numWon++;
-					minGuess = Math.min(minGuess, numGuess);
-					maxGuess = Math.max(maxGuess, numGuess);
-					sumGuess += numGuess;
+					minGuess = Math.min(minGuess, lastNumGuess);
+					maxGuess = Math.max(maxGuess, lastNumGuess);
+					sumGuess += lastNumGuess;
 				}
 			}
 			reader.close();
@@ -198,11 +199,17 @@ public class UserGuess extends Guess {
 		System.out.println("Number of games played: " + numPlay);
 		System.out.println("Number of games won: " + numWon);
 		System.out.println(String.format("Total number of guesses: %d", sumGuess + 12 * (numPlay - numWon)));
-		System.out.println("Minimum number of guesses required to win: " + minGuess);
-		System.out.println("Maximum number of guesses required to win: " + maxGuess);
+		if (lastNumGuess < 1) {
+			System.out.println("Last time you lost");
+		} else {
+			System.out.println(String.format("Last time you won and made %d guess%s", lastNumGuess,
+					(lastNumGuess > 1 ? "es" : "")));
+		}
 		if (numWon > 0) {
+			System.out.println("Minimum number of guesses to win: " + minGuess);
+			System.out.println("Maximum number of guesses to win: " + maxGuess);
 			average = (double) sumGuess / numWon;
-			System.out.println(String.format("Average number of guesses required to win: %.2f", average));
+			System.out.println(String.format("Average number of guesses to win: %.2f", average));
 		}
 	}
 
