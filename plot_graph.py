@@ -45,7 +45,7 @@ plt.show()
 # Plot time series of guesses to win
 plt.ylabel("Number of guesses")
 plt.xlabel("Index of game")
-plt.plot(guess_list, marker='o', label='user')
+plt.plot(guess_list, marker='o')
 plt.gcf().set_size_inches(9.0, 6.0)
 plt.savefig(output_dir+'num_guesses_time.png', bbox_inches='tight', dpi=100)
 plt.legend(loc='best')
