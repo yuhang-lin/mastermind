@@ -75,6 +75,7 @@ public class ComputerGuess extends Guess {
 			int numWrongPos = result[1];
 			if (numRightPos == NUM_COLOR_ROUND) {
 				System.out.println("Computer wins!");
+				storeStats(total_guesses);
 				return;
 			} else {
 				System.out.println(String.format(
@@ -91,8 +92,9 @@ public class ComputerGuess extends Guess {
 			}
 		}
 		if (total_guesses == MAX_GUESS) {
-			// if user has done 12 guesses, game is over
+			// if computer has done 12 guesses, game is over
 			System.out.println("You win! Computer failed to guess the correct sequence.");
+			storeStats(0);
 		}
 	}
 
