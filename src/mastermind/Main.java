@@ -14,12 +14,18 @@ import mastermind.ComputerGuess;
 public class Main {
 
 	/**
+	 * Entry function to this project
+	 * 
 	 * @param args
+	 *            command line arguments
 	 */
 	public static void main(String[] args) {
 		start();
 	}
 
+	/**
+	 * Start the game.
+	 */
 	public static void start() {
 		System.out.println("Welcome to Mastermind!\nWould you like to guess what is in the computer's mind? \n"
 				+ "Or would you like the computer to guess what is in your mind?");
