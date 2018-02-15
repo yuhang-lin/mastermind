@@ -21,6 +21,7 @@ public class ComputerGuess extends Guess {
 	private static int[] ans = new int[4];
 	private static HashSet<Integer> usedGuess = new HashSet<>();
 	private static HashSet<Integer> candidate = new HashSet<>();
+	private static String fileName = "computer_stats.txt";
 
 	public static void main(String[] args) {
 		computerGuess();
@@ -75,7 +76,7 @@ public class ComputerGuess extends Guess {
 			int numWrongPos = result[1];
 			if (numRightPos == NUM_COLOR_ROUND) {
 				System.out.println("Computer wins!");
-				storeStats(total_guesses);
+				storeStats(total_guesses, fileName);
 				return;
 			} else {
 				System.out.println(String.format(
@@ -94,7 +95,7 @@ public class ComputerGuess extends Guess {
 		if (total_guesses == MAX_GUESS) {
 			// if computer has done 12 guesses, game is over
 			System.out.println("You win! Computer failed to guess the correct sequence.");
-			storeStats(0);
+			storeStats(0, fileName);
 		}
 	}
 

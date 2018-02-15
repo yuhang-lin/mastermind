@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class UserGuess extends Guess {
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 	public static int total_hints = 0;
-	protected static String fileName = "user_stats.txt";
+	private static String fileName = "user_stats.txt";
 	protected static String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
 
 	public static void main(String[] args) {
@@ -110,7 +110,7 @@ public class UserGuess extends Guess {
 				int numWrongPos = result[1];
 				if (numRightPos == NUM_COLOR_ROUND) {
 					System.out.println("You win!");
-					storeStats(total_guesses);
+					storeStats(total_guesses, fileName);
 					displayStats();
 					return;
 				} else {
@@ -124,7 +124,7 @@ public class UserGuess extends Guess {
 			// if user has done 12 guesses, game is over
 			System.out.println("You lose!");
 			System.out.println("Here is what computer generated: " + Arrays.toString(comp_array));
-			storeStats(0);
+			storeStats(0, fileName);
 			displayStats();
 		}
 	}
