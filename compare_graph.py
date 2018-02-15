@@ -28,6 +28,16 @@ with open(user_stats, "r") as fin:
         else:
             num_won_user += 1
             guess_user.append(num)
+# Plot pie chart to compare the percentage of winning and losing
+data = [num_won_user, num_lost_user]
+explode = (0, 0.1)
+labels = ['Winning', 'Losing']
+plt.pie(data, explode=explode, labels=labels, autopct='%1.1f%%',
+        shadow=True, startangle=90)
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.gcf().set_size_inches(9.0, 6.0)
+plt.savefig(output_dir+'win_vs_lose_user.png', bbox_inches='tight', dpi=100)
+plt.show()
 
 computer_stats = "computer_stats.txt"
 num_lost_computer = 0
@@ -42,6 +52,16 @@ with open(computer_stats, "r") as fin:
         else:
             num_won_computer += 1
             guess_computer.append(num)
+# Plot pie chart to compare the percentage of winning and losing
+data = [num_won_computer, num_lost_computer]
+explode = (0, 0.1)
+labels = ['Winning', 'Losing']
+plt.pie(data, explode=explode, labels=labels, autopct='%1.1f%%',
+        shadow=True, startangle=90)
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.gcf().set_size_inches(9.0, 6.0)
+plt.savefig(output_dir+'win_vs_lose_computer.png', bbox_inches='tight', dpi=100)
+plt.show()
 
 # Plot time series of guesses to win
 plt.ylabel("Number of guesses")
@@ -56,7 +76,8 @@ plt.show()
 # Compare min, max, average number of guesses
 width = 0.35
 user_data = [max(guess_user), min(guess_user), np.mean(guess_user)]
-computer_data = [max(guess_computer), min(guess_computer), np.mean(guess_computer)]
+computer_data = [max(guess_computer), min(guess_computer),
+                 np.mean(guess_computer)]
 ind = np.arange(len(user_data))
 fig, ax = plt.subplots()
 bar_user = ax.bar(ind, user_data, width)
