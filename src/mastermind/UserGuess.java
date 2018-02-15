@@ -157,7 +157,7 @@ public class UserGuess extends Guess {
 
 		System.out.println("Ah, you want a hint?");
 		if (totalHint == 0) {
-			System.out.println("The number in the " + index + " place is: " + computerCode[hint]);
+			System.out.println(String.format("The %d%s digit is: %d", index, getNumberSuffix(index), computerCode[hint]));
 		}
 
 		if (totalHint == 1) {
