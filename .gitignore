@@ -79,3 +79,4 @@ local.properties
 .scala_dependencies
 .worksheet
 user_stats.txt
+computer_stats.txt
