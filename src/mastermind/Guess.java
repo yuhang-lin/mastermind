@@ -3,6 +3,10 @@
  */
 package mastermind;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -13,6 +17,7 @@ public class Guess {
 	public static int total_guesses = 0; // Total number of guesses made so far
 	protected static final int NUM_COLOR_ROUND = 4; // Number of colors for each round
 	protected static final int MAX_GUESS = 12; // Maximum number of guesses allowable
+	protected static String fileName;
 
 	/**
 	 * Compare the guessed colors with the correct colors.
@@ -78,4 +83,23 @@ public class Guess {
 		}
 	}
 
+	/**
+	 * Store the number of guesses into file for record.
+	 * 
+	 * @param numGuess
+	 *            an integer number of guesses
+	 */
+	protected static void storeStats(int numGuess) {
+		try {
+			File file = new File(fileName);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+			writer.write(String.format("%d\n", numGuess));
+			writer.close();
+		} catch (IOException ioe) {
+			System.out.println("Sorry the software encountered an IO Error. Please try again later.");
+		}
+	}
 }
