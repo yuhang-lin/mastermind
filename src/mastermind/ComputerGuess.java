@@ -67,16 +67,16 @@ public class ComputerGuess extends Guess {
 		generatePotAns();
 		int[] guess = { 1, 1, 2, 2 }; // Initial guess
 		usedGuess.add(11);
-		while (total_guesses < MAX_GUESS) {
-			total_guesses++;
-			System.out.println(String.format("Computer made %d%s guess of %s", total_guesses,
-					getNumberSuffix(total_guesses), Arrays.toString(guess)));
+		while (totalGuess < MAX_GUESS) {
+			totalGuess++;
+			System.out.println(String.format("Computer made %d%s guess of %s", totalGuess,
+					getNumberSuffix(totalGuess), Arrays.toString(guess)));
 			int[] result = compareGuess(ans, guess);
 			int numRightPos = result[0];
 			int numWrongPos = result[1];
 			if (numRightPos == NUM_COLOR_ROUND) {
 				System.out.println("Computer wins!");
-				storeStats(total_guesses, fileName);
+				storeStats(totalGuess, fileName);
 				return;
 			} else {
 				System.out.println(String.format(
@@ -92,7 +92,7 @@ public class ComputerGuess extends Guess {
 				guess = nextGuess();
 			}
 		}
-		if (total_guesses == MAX_GUESS) {
+		if (totalGuess >= MAX_GUESS) {
 			// if computer has done 12 guesses, game is over
 			System.out.println("You win! Computer failed to guess the correct sequence.");
 			storeStats(0, fileName);

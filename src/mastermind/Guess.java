@@ -14,7 +14,7 @@ import java.util.HashMap;
  *
  */
 public class Guess {
-	public static int total_guesses = 0; // Total number of guesses made so far
+	public static int totalGuess = 0; // Total number of guesses made so far
 	protected static final int NUM_COLOR_ROUND = 4; // Number of colors for each round
 	protected static final int MAX_GUESS = 12; // Maximum number of guesses allowable
 

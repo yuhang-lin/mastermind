@@ -18,8 +18,8 @@ import java.util.Scanner;
  * @author Peter Macksey, Yuhang Lin
  */
 public class UserGuess extends Guess {
-	public static int[] comp_array = new int[NUM_COLOR_ROUND];
-	public static int total_hints = 0;
+	public static int[] computerCode = new int[NUM_COLOR_ROUND];
+	public static int totalHint = 0;
 	private static String fileName = "user_stats.txt";
 	protected static String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
 
@@ -44,13 +44,13 @@ public class UserGuess extends Guess {
 		// have computer pick random sequence
 		Random random = new Random();
 		for (int i = 0; i < NUM_COLOR_ROUND; i++) {
-			comp_array[i] = random.nextInt(colors.length) + 1;
+			computerCode[i] = random.nextInt(colors.length) + 1;
 		}
 
 		// scanner to input user data
 		try (Scanner scanner = new Scanner(System.in)) {
 			// allows the user to input 12 guesses
-			while (total_guesses < MAX_GUESS) {
+			while (totalGuess < MAX_GUESS) {
 				// if you haven't entered 12 guesses allow more
 				System.out.print("Please enter 4 numbers, each from 1 to 6: (");
 				printColor();
@@ -97,20 +97,20 @@ public class UserGuess extends Guess {
 				}
 
 				// total number of guesses so far
-				total_guesses++;
+				totalGuess++;
 
 				// prints out total number of guesses so far
-				System.out.println("Total number of guesses: " + total_guesses);
+				System.out.println("Total number of guesses: " + totalGuess);
 				// prints out your guess
 				System.out.println("Your guess is: " + Arrays.toString(user_guesses));
 
 				// checks if user wins, if not, gives feedback on their guess
-				int[] result = compareGuess(comp_array, user_guesses);
+				int[] result = compareGuess(computerCode, user_guesses);
 				int numRightPos = result[0];
 				int numWrongPos = result[1];
 				if (numRightPos == NUM_COLOR_ROUND) {
 					System.out.println("You win!");
-					storeStats(total_guesses, fileName);
+					storeStats(totalGuess, fileName);
 					displayStats();
 					return;
 				} else {
@@ -120,10 +120,10 @@ public class UserGuess extends Guess {
 				}
 			}
 		}
-		if (total_guesses == MAX_GUESS) {
+		if (totalGuess >= MAX_GUESS) {
 			// if user has done 12 guesses, game is over
 			System.out.println("You lose!");
-			System.out.println("Here is what computer generated: " + Arrays.toString(comp_array));
+			System.out.println("Here is what computer generated: " + Arrays.toString(computerCode));
 			storeStats(0, fileName);
 			displayStats();
 		}
@@ -149,25 +149,25 @@ public class UserGuess extends Guess {
 	 */
 	public static void hint() {
 		// have computer pick random index for hint
-		Random hint_random = new Random();
-		int hint = hint_random.nextInt(comp_array.length);
+		Random hintRandom = new Random();
+		int hint = hintRandom.nextInt(computerCode.length);
 		// makes it easier for people to read instead of having the first item be at
 		// the 0 place
 		int index = hint + 1;
 
 		System.out.println("Ah, you want a hint?");
-		if (total_hints == 0) {
-			System.out.println("The number in the " + index + " place is: " + comp_array[hint]);
+		if (totalHint == 0) {
+			System.out.println("The number in the " + index + " place is: " + computerCode[hint]);
 		}
 
-		if (total_hints == 1) {
-			System.out.println("There is a " + comp_array[hint] + " somewhere");
+		if (totalHint == 1) {
+			System.out.println("There is a " + computerCode[hint] + " somewhere");
 		}
 
-		if (total_hints > 1) {
+		if (totalHint > 1) {
 			System.out.println("Too bad, no more hints! ");
 		}
-		total_hints++;
+		totalHint++;
 	}
 
 	/**
