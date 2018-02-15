@@ -75,7 +75,7 @@ public class ComputerGuess extends Guess {
 			int numWrongPos = result[1];
 			if (numRightPos == NUM_COLOR_ROUND) {
 				System.out.println("Computer wins!");
-				break;
+				return;
 			} else {
 				System.out.println(String.format(
 						"Correct position and color (BLACK): %d; Wrong position but correct color (WHITE): %d",

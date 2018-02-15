@@ -4,11 +4,8 @@
 package mastermind;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -23,7 +20,8 @@ import java.util.Scanner;
 public class UserGuess extends Guess {
 	public static int[] comp_array = new int[NUM_COLOR_ROUND];
 	public static int total_hints = 0;
-	private static String fileName = "user_stats.txt";
+	protected static String fileName = "user_stats.txt";
+	protected static String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
 
 	public static void main(String[] args) {
 		userGuess();
@@ -34,18 +32,10 @@ public class UserGuess extends Guess {
 	 */
 	public static void userGuess() {
 		System.out.println("It's time for you to guess. ");
-		String[] colors = { "blue", "purple", "green", "yellow", "orange", "red" };
-		System.out.print("The computer will pick 4 numbers, each from 1 to 6 (");
+		System.out.print("The computer will pick 4 numbers, each from 1 to 6: (");
 
 		// prints out all color options
-		for (int i = 0; i < colors.length; i++) {
-			System.out.print(String.format("%d for %s", i + 1, colors[i]));
-			if (i != colors.length - 1) {
-				System.out.print(", "); // Separate colors with comma
-			} else {
-				System.out.println("):"); // Print a new line for the last color option
-			}
-		}
+		printColor();
 		System.out.println("You will try to guess what that exact sequence is in 12 tries, good luck!");
 		System.out.println("If you want to give up, enter 'quit' or 'exit'");
 		System.out.println("If you need a hint, enter 'hint'");
@@ -62,7 +52,8 @@ public class UserGuess extends Guess {
 			// allows the user to input 12 guesses
 			while (total_guesses < MAX_GUESS) {
 				// if you haven't entered 12 guesses allow more
-				System.out.println("Enter 4 numbers, each from 1 to 6: ");
+				System.out.print("Please enter 4 numbers, each from 1 to 6: (");
+				printColor();
 
 				// reads the line into an array
 				int[] user_guesses = new int[NUM_COLOR_ROUND];
@@ -121,7 +112,7 @@ public class UserGuess extends Guess {
 					System.out.println("You win!");
 					storeStats(total_guesses);
 					displayStats();
-					break;
+					return;
 				} else {
 					System.out.println(String.format(
 							"Correct position and color (BLACK): %d; Wrong position but correct color (WHITE): %d",
@@ -137,6 +128,21 @@ public class UserGuess extends Guess {
 			displayStats();
 		}
 	}
+	
+	/**
+	 * Print out the colors options
+	 */
+	private static void printColor() {
+		for (int i = 0; i < colors.length; i++) {
+			System.out.print(String.format("%d for %s", i + 1, colors[i]));
+			if (i != colors.length - 1) {
+				System.out.print(", "); // Separate colors with comma
+			} else {
+				System.out.println(")"); // Print a new line for the last color option
+			}
+		}
+	}
+	
 
 	/**
 	 * Provide user with at most two hints if they wish.
@@ -213,23 +219,5 @@ public class UserGuess extends Guess {
 		}
 	}
 
-	/**
-	 * Store the number of guesses into file for record.
-	 * 
-	 * @param numGuess
-	 *            an integer number of guesses
-	 */
-	private static void storeStats(int numGuess) {
-		try {
-			File file = new File(fileName);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-			writer.write(String.format("%d\n", numGuess));
-			writer.close();
-		} catch (IOException ioe) {
-			System.out.println("Sorry the software encountered an IO Error. Please try again later.");
-		}
-	}
+	
 }
