@@ -35,6 +35,7 @@ labels = ['Winning', 'Losing']
 plt.pie(data, explode=explode, labels=labels, autopct='%1.1f%%',
         shadow=True, startangle=90)
 plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.title("User")
 plt.gcf().set_size_inches(9.0, 6.0)
 plt.savefig(output_dir+'win_vs_lose_user.png', bbox_inches='tight', dpi=100)
 plt.show()
@@ -57,8 +58,9 @@ data = [num_won_computer, num_lost_computer]
 explode = (0, 0.1)
 labels = ['Winning', 'Losing']
 plt.pie(data, explode=explode, labels=labels, autopct='%1.1f%%',
-        shadow=True, startangle=90)
+        shadow=True, startangle=180)
 plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.title("Computer")
 plt.gcf().set_size_inches(9.0, 6.0)
 plt.savefig(output_dir+'win_vs_lose_computer.png', bbox_inches='tight', dpi=100)
 plt.show()
